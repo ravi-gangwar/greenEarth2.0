@@ -2,11 +2,8 @@ import { publicProcedure, router } from "./trpc";
 
 export const appRouter = router({
     getTodos: publicProcedure.query(async () => {
-
-        //make DB call
-
-        return { name: "Ravi", role: 'Dev' }
-    })
+        return { name: "Ravi", role: 'Dev' };
+    }),
 })
 
 
