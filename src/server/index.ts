@@ -1,9 +1,9 @@
-import { publicProcedure, router } from "./trpc";
+import { demoRoutes } from "./routes/demo";
+import { router } from "./trpc";
 
 export const appRouter = router({
-    getTodos: publicProcedure.query(async () => {
-        return { name: "Ravi", role: 'Dev' };
-    }),
+    demoRoutes,
+    
 })
 
 

@@ -1,11 +1,15 @@
 "use client"
-import { trpc } from "./_trpc/client";
+
+import LanginPage from "./_components/LandingPage";
+import NavBar from "./_components/NavBar";
+import OtherInformationPage from "./_components/OtherInformationPage";
 
 export default function Home() {
-  const getTodos = trpc.getTodos.useQuery();
   return (
-    <main>
-      <div>{JSON.stringify(getTodos.data)}</div>
+    <main className="">
+     <NavBar/>
+     <LanginPage/>
+     <OtherInformationPage/>
     </main>
   );
 }
