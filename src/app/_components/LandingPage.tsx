@@ -23,7 +23,7 @@ function LandingPage() {
                 </p>
             </Flex>
             <button className='bg-yellow-700 text-yellow-100 py-3 font-bold mt-10 px-10 rounded-sm text-3xl rounded-bl-full rounded-tr-full cursor-pointer'>Get Started</button>
-            <Image className='object-cover absolute bottom-0' src={"/whitewave.svg"} width={10000} height={100} />
+            <Image className='object-cover absolute bottom-0' src={"/whitewave.svg"} alt='wave' width={10000} height={100} />
         </Flex>
     );
 }

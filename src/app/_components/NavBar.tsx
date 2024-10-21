@@ -19,7 +19,7 @@ function NavBar() {
     return (
         <nav className='z-50 w-full h-20 flex items-center justify-between px-5 bg-gradient-to-r from-[rgba(224,205,39,0.2)] to-[rgba(231,228,22,0.73)]'>
             <div>
-                <Image src="/greenearth.svg" width={200} height={200} className='absolute top-0 left-0' alt='' />
+                <Image src="/greenearth.svg" width={200} height={200} className='absolute top-0 left-0' alt='logo' />
             </div>
             <div>
                 {/* Use `hidden` on smaller screens and `lg:flex` on large screens */}
@@ -54,13 +54,14 @@ const MobileMenu = () => {
 
             {/* Drawer Content */}
             <DrawerContent className='p-4 bg-yellow-200 items-center'>
+                <DrawerTitle></DrawerTitle>
                 <div className='flex justify-between items-center'>
                     {/* Drawer Close Button */}
                     <DrawerClose asChild className='absolute right-0 top-0 font-bold'>
                         <RiCloseLine size={40} className='text-blue cursor-pointer' />
                     </DrawerClose>
                 </div>
-                
+
                 {/* Navigation Links */}
                 <ul className="mt-5 flex flex-col gap-4">
                     {navlinks.map((nav, index) => (

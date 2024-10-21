@@ -14,11 +14,9 @@ export const demoRoutes = router({
     return state;
   }),
   
-  // Validate input using the schema
   addTodo: publicProcedure
-    .input(TodoSchema) // Use the schema to validate the input
+    .input(TodoSchema)
     .mutation(async ({ input }) => {
-      // If validation passes, push the data into the state array
       state.push(input);
       return { success: true };
     }),
