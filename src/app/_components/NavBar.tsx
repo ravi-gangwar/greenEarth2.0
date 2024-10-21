@@ -1,8 +1,8 @@
-import { Drawer, DrawerClose, DrawerContent, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer';
+import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer';
 import Image from 'next/image';
 import React from 'react';
 import { FaShoppingCart } from "react-icons/fa";
-import { RiCloseLine, RiMenu3Line } from "react-icons/ri";
+import { RiMenu3Line } from "react-icons/ri";
 
 type NavTypes = [
     'Home',
@@ -54,14 +54,6 @@ const MobileMenu = () => {
 
             {/* Drawer Content */}
             <DrawerContent className='p-4 bg-yellow-200 items-center'>
-                <DrawerTitle></DrawerTitle>
-                <div className='flex justify-between items-center'>
-                    {/* Drawer Close Button */}
-                    <DrawerClose asChild className='absolute right-0 top-0 font-bold'>
-                        <RiCloseLine size={40} className='text-blue cursor-pointer' />
-                    </DrawerClose>
-                </div>
-
                 {/* Navigation Links */}
                 <ul className="mt-5 flex flex-col gap-4">
                     {navlinks.map((nav, index) => (
