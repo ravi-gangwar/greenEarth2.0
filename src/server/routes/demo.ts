@@ -7,13 +7,13 @@ const TodoSchema = z.object({
   role: z.string(),
 });
 
-const state: { name: string; role: string }[] = [];
+const state: { name: string; role: string }[] = [{ name: "Ravi", role: "Dev" }];
 
 export const demoRoutes = router({
   getTodos: publicProcedure.query(async () => {
     return state;
   }),
-  
+
   addTodo: publicProcedure
     .input(TodoSchema)
     .mutation(async ({ input }) => {
