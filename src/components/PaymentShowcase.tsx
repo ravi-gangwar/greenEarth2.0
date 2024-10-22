@@ -6,9 +6,9 @@ const overlock = Overlock({
     weight: '900',
 });
 
-function OtherInformationPage() {
+function PaymentShowcase() {
     return (
-        <div className='relative flex bg-[#F3F4F5] md:mt-0 w-full justify-center'>
+        <div className='relative flex bg-[#F3F4F5] md:mt-0 w-full justify-center w-[100vw   ]'>
             <div className='items-end md:flex'>
                 <div className='flex h-[250px] w-[100vw] md:w-[250px] lg:h-[300px] lg:w-[250px] xl:h-[400px] xl:w-[350px] bg-[#FBE024] md:rounded-tl-[100px] items-center justify-center flex-col'>
                     <h1 className={`${overlock.className} text-zinc-700 text-3xl`}>
@@ -35,4 +35,4 @@ function OtherInformationPage() {
     );
 }
 
-export default OtherInformationPage;
+export default PaymentShowcase;

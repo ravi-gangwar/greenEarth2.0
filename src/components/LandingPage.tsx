@@ -1,6 +1,7 @@
 import React from 'react';
 import { Ultra as UltraFont } from 'next/font/google';
 import Image from 'next/image';
+import { useWindowSize } from 'usehooks-ts'
 
 
 const ultra = UltraFont({
@@ -10,8 +11,10 @@ const ultra = UltraFont({
 });
 
 function LandingPage() {
+
+    const { width = 1000 } = useWindowSize()
     return (
-        <div className='flex items-center flex-col bg-gradient-to-r from-[rgba(224,205,39,0.2)] to-[rgba(231,228,22,0.73)]'>
+        <div className='flex items-center w-[100vw] flex-col bg-gradient-to-r from-[rgba(224,205,39,0.2)] to-[rgba(231,228,22,0.73)]'>
             <div className='flex min-w-[100%] items-center justify-center flex-col mt-20'>
                 <h1 className={`${ultra.className} text-6xl sm:text-7xl md:text-7xl lg:text-8xl xl:text-9xl font-bold text-yellow-800 text-center`}>
                     Plant Trees at <br /> Your <span className='text-blue'>Desired Location</span>
@@ -22,7 +25,7 @@ function LandingPage() {
                 </p>
             </div>
             <button className='bg-yellow-700 mb-10 text-yellow-100 py-3 font-bold mt-10 px-10 rounded-sm text-3xl rounded-bl-full rounded-tr-full cursor-pointer'>Get Started</button>
-            <Image className='object-cover hidden sm:flex' src={"/whitewave.svg"} alt='wave' width={10000} height={100} />
+            <Image className='object-cover hidden sm:flex' src={"/whitewave.svg"} alt='wave' width={width} height={10} />
         </div>
     );
 }

@@ -1,7 +1,10 @@
 "use client"
 import LandingPage from "@/components/LandingPage";
 import NavBar from "../components/NavBar";
-import OtherInformationPage from "@/components/OtherInformationPage";
+import PaymentShowcase from "@/components/PaymentShowcase";
+import NewArriables from "@/components/NewArriables";
+import PopularCollections from "@/components/PopularCollections";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   // const { data, isLoading } = trpc.demoRoutes.getTodos.useQuery()
@@ -10,7 +13,10 @@ export default function Home() {
     <main className="">
       <NavBar />
       <LandingPage />
-      <OtherInformationPage />
+      <PaymentShowcase />
+      <PopularCollections/>
+      <NewArriables/>
+      <Footer/>
     </main>
   );
 }

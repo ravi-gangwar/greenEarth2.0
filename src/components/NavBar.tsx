@@ -17,7 +17,7 @@ const navlinks: NavTypes = ['Home', 'Plant', 'Garden', 'Orders', 'Contact us'];
 function NavBar() {
 
     return (
-        <nav className='z-50 w-full h-20 flex items-center justify-between px-5 bg-gradient-to-r from-[rgba(224,205,39,0.2)] to-[rgba(231,228,22,0.73)]'>
+        <nav className='z-50 w-[100vw] h-20 flex items-center justify-between px-5 bg-gradient-to-r from-[rgba(224,205,39,0.2)] to-[rgba(231,228,22,0.73)]'>
             <div>
                 <Image src="/greenearth.svg" width={200} height={200} className='absolute top-0 left-0' alt='logo' />
             </div>
@@ -52,11 +52,11 @@ const MobileMenu = () => {
             </DrawerTrigger>
 
             {/* Drawer Content */}
-            <DrawerContent className='p-4 bg-yellow-200 items-center'>
+            <DrawerContent className='p-4 bg-gradient-to-t from-[#30664B] to-[rgba(27,207,147,0.25)] items-center'>
                 {/* Navigation Links */}
                 <ul className="mt-5 flex flex-col gap-4">
                     {navlinks.map((nav, index) => (
-                        <li key={index} className="font-bold text-center text-zinc-50 px-5 rounded-md text-lg cursor-pointer bg-yellow-700">{nav}</li>
+                        <li key={index} className="font-bold text-center text-zinc-50 px-5 rounded-md text-lg cursor-pointer bg-blue">{nav}</li>
                     ))}
                 </ul>
             </DrawerContent>
