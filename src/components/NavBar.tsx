@@ -1,23 +1,29 @@
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer';
 import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import React from 'react';
 import { FaShoppingCart } from "react-icons/fa";
 import { RiMenu3Line } from "react-icons/ri";
 
-type NavTypes = [
-    'Home',
-    'Plant',
-    'Garden',
-    'Orders',
-    'Contact us'
-]
+type NavTypes = {
+    linkName: string;
+    pathname: string;
+}
 
-const navlinks: NavTypes = ['Home', 'Plant', 'Garden', 'Orders', 'Contact us'];
+const navlinks: NavTypes[] = [
+    { linkName: 'Home', pathname: '/' },
+    { linkName: 'Plants', pathname: '/plants' },
+    { linkName: 'Garden', pathname: '/garden' }, // Fixed spelling error from 'Gardern'
+    { linkName: 'About', pathname: '/about' },
+    { linkName: 'Contact us', pathname: '/contactus' }
+];
 
 function NavBar() {
+    const pathname = usePathname();
 
     return (
-        <nav className='z-50 w-[100vw] h-20 flex items-center justify-between px-5 bg-gradient-to-r from-[rgba(224,205,39,0.2)] to-[rgba(231,228,22,0.73)]'>
+        <nav className='z-50 w-full h-20 flex items-center justify-between px-5 bg-gradient-to-r from-[rgba(224,205,39,0.2)] to-[rgba(231,228,22,0.73)]'>
             <div>
                 <Image src="/greenearth.svg" width={200} height={200} className='absolute top-0 left-0' alt='logo' />
             </div>
@@ -26,7 +32,11 @@ function NavBar() {
                     {
                         navlinks.map((nav, index) => {
                             return (
-                                <li className='text-blue font-bold cursor-pointer' key={index}>{nav}</li>
+                                <Link key={index} href={nav.pathname}>
+                                    <li className={`${nav.pathname === pathname ? 'text-blue font-bold' : 'text-yellow-800'} cursor-pointer`}>
+                                        {nav.linkName}
+                                    </li>
+                                </Link>
                             )
                         })
                     }
@@ -37,7 +47,9 @@ function NavBar() {
                     <MobileMenu />
                 </div>
                 <FaShoppingCart size={30} className='hidden text-blue font-bold rounded-full lg:flex' />
-                <p className='hidden text-blue font-bold lg:flex '>Login</p>
+                <Link href={'/auth/login'} className='hidden text-blue font-bold lg:flex'>
+                    <span>Login</span>
+                </Link>
             </div>
         </nav>
     );
@@ -56,7 +68,11 @@ const MobileMenu = () => {
                 {/* Navigation Links */}
                 <ul className="mt-5 flex flex-col gap-4">
                     {navlinks.map((nav, index) => (
-                        <li key={index} className="font-bold text-center text-zinc-50 px-5 rounded-md text-lg cursor-pointer bg-blue">{nav}</li>
+                        <Link key={index} href={nav.pathname}>
+                            <li className="font-bold text-center text-zinc-50 px-5 rounded-md text-lg cursor-pointer bg-blue">
+                                {nav.linkName}
+                            </li>
+                        </Link>
                     ))}
                 </ul>
             </DrawerContent>

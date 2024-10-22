@@ -51,7 +51,7 @@ function Footer() {
                     </ul>
                 </div>
             </div>
-            <p className='text-zinc-950 text-center font-bold'>All right reversed @ravi gangwar {new Date().getFullYear()}</p>
+            <p className='text-zinc-950 text-center'>All right reversed @ravi gangwar {new Date().getFullYear()}</p>
         </div>
     );
 }

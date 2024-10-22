@@ -25,7 +25,7 @@ function LandingPage() {
                 </p>
             </div>
             <button className='bg-yellow-700 mb-10 text-yellow-100 py-3 font-bold mt-10 px-10 rounded-sm text-3xl rounded-bl-full rounded-tr-full cursor-pointer'>Get Started</button>
-            <Image className='object-cover hidden sm:flex' src={"/whitewave.svg"} alt='wave' width={width} height={10} />
+            <Image className='object-cover hidden sm:flex' src={"/whitewave.svg"} alt='wave' width={width ?? 1000} height={10} />
         </div>
     );
 }
