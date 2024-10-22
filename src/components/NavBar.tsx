@@ -22,7 +22,6 @@ function NavBar() {
                 <Image src="/greenearth.svg" width={200} height={200} className='absolute top-0 left-0' alt='logo' />
             </div>
             <div>
-                {/* Use `hidden` on smaller screens and `lg:flex` on large screens */}
                 <ul className='text-white gap-6 hidden lg:flex'>
                     {
                         navlinks.map((nav, index) => {
