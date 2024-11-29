@@ -1,5 +1,7 @@
 import { z } from "zod";
 import { publicProcedure, router } from "../trpc";
+import dbConnect from "@/db/mongoose";
+import treeModel from "@/models/trees";
 
 // Define the schema for the input object using zod
 const TodoSchema = z.object({
@@ -9,9 +11,12 @@ const TodoSchema = z.object({
 
 const state: { name: string; role: string }[] = [{ name: "Ravi", role: "Dev" }];
 
-export const demoRoutes = router({
+export const treeRoutes = router({
   getTodos: publicProcedure.query(async () => {
-    return state;
+    await dbConnect();
+
+    const allTrees = await treeModel.find({});
+    return allTrees;
   }),
 
   addTodo: publicProcedure

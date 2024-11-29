@@ -1,8 +1,8 @@
-import { demoRoutes } from "./routes/demo";
+import { treeRoutes } from "./routes/treeRoutes";
 import { router } from "./trpc";
 
 export const appRouter = router({
-    demoRoutes,
+    treeRoutes,
 })
 
 
