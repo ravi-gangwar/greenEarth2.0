@@ -4,24 +4,31 @@ import { FaTwitter, FaLinkedin, FaGithub, FaInstagram } from "react-icons/fa";
 
 function Footer() {
     return (
-        <div className='w-full pt-10 bg-gradient-to-t from-[#30664b]/[0.76] via-[#30664b]/[0.33]'>
-            <div className='flex items-center justify-center mb-5'>
-                <Image src="/greenearth.svg" width={200} alt="logo" height={10} />
+        <footer className='w-full pt-10 bg-gradient-to-t from-[#30664b]/80 via-[#30664b]/50'>
+            {/* Logo Section */}
+            <div className='flex items-center justify-center mb-6'>
+                <Image src="/greenearth.svg" width={150} height={50} alt="Green Earth Logo" />
             </div>
-            <p className='text-sm md:text-lg text-blue md:max-w-[60%] text-center mx-auto mb-5'>
-                {"This is my semester's mini project, my own idea to plant trees and minimize pollution. This project gives you a way to order your desired tree to plant and location, as well as have some yearly and monthly plans for the care of your planted trees, and you can see your tree's growth in the form of pictures or videos."}
+
+            {/* Description */}
+            <p className='text-sm md:text-lg text-blue-900 text-center max-w-[80%] md:max-w-[60%] mx-auto mb-6 px-4'>
+                This is my semester's mini project, my own idea to plant trees and minimize pollution. This project allows you to order trees to plant, select a location, and opt for yearly or monthly plans for tree care. You can monitor the growth of your tree through pictures and videos.
             </p>
-            <div className='flex justify-center items-center gap-5 mb-5'>
-                <FaTwitter size={20} className="cursor-pointer hover:text-blue-500" />
-                <FaLinkedin size={20} className="cursor-pointer hover:text-blue-500" />
-                <FaGithub size={20} className="cursor-pointer hover:text-blue-500" />
-                <FaInstagram size={20} className="cursor-pointer hover:text-blue-500" />
+
+            {/* Social Icons */}
+            <div className='flex justify-center items-center gap-6 mb-8'>
+                <FaTwitter size={24} className="cursor-pointer hover:text-blue-500 transition" />
+                <FaLinkedin size={24} className="cursor-pointer hover:text-blue-500 transition" />
+                <FaGithub size={24} className="cursor-pointer hover:text-gray-700 transition" />
+                <FaInstagram size={24} className="cursor-pointer hover:text-pink-500 transition" />
             </div>
-            <div className="flex justify-between md:justify-evenly items-start px-2 text-gray-800 py-5">
+
+            {/* Footer Links */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-6 text-gray-800 mb-8 text-sm text-center">
                 {/* Links Section */}
-                <div className="flex flex-col space-y-2">
-                    <h1 className="text-xl font-bold text-gray-700">Links</h1>
-                    <ul className="space-y-1">
+                <div>
+                    <h2 className="text-lg font-semibold text-gray-700 mb-3">Links</h2>
+                    <ul className="space-y-2">
                         <li><a href="#" className="text-gray-600 hover:text-blue-500">Home</a></li>
                         <li><a href="#" className="text-gray-600 hover:text-blue-500">About Us</a></li>
                         <li><a href="#" className="text-gray-600 hover:text-blue-500">Services</a></li>
@@ -30,9 +37,9 @@ function Footer() {
                 </div>
 
                 {/* Community Section */}
-                <div className="flex flex-col space-y-2">
-                    <h1 className="text-xl font-bold text-gray-700">Community</h1>
-                    <ul className="space-y-1">
+                <div>
+                    <h2 className="text-lg font-semibold text-gray-700 mb-3">Community</h2>
+                    <ul className="space-y-2">
                         <li><a href="#" className="text-gray-600 hover:text-blue-500">Forums</a></li>
                         <li><a href="#" className="text-gray-600 hover:text-blue-500">Events</a></li>
                         <li><a href="#" className="text-gray-600 hover:text-blue-500">Blog</a></li>
@@ -41,9 +48,9 @@ function Footer() {
                 </div>
 
                 {/* Resources Section */}
-                <div className="flex flex-col space-y-2">
-                    <h1 className="text-xl font-bold text-gray-700">Resources</h1>
-                    <ul className="space-y-1">
+                <div>
+                    <h2 className="text-lg font-semibold text-gray-700 mb-3">Resources</h2>
+                    <ul className="space-y-2">
                         <li><a href="#" className="text-gray-600 hover:text-blue-500">Documentation</a></li>
                         <li><a href="#" className="text-gray-600 hover:text-blue-500">Tutorials</a></li>
                         <li><a href="#" className="text-gray-600 hover:text-blue-500">API Reference</a></li>
@@ -51,8 +58,12 @@ function Footer() {
                     </ul>
                 </div>
             </div>
-            <p className='text-zinc-950 text-center text-sm'>All right reversed @ravi gangwar {new Date().getFullYear()}</p>
-        </div>
+
+            {/* Footer Note */}
+            <p className='text-gray-700 text-center text-sm pb-6'>
+                &copy; {new Date().getFullYear()} Ravi Gangwar. All rights reserved.
+            </p>
+        </footer>
     );
 }
 
