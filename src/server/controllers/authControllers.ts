@@ -1,7 +1,6 @@
 import { FormEvent } from "react";
 
 export const handleLogin = (event: FormEvent<HTMLFormElement>) => {
-    console.log("formData")
     event.preventDefault(); // Prevent default form submission behavior
 
     

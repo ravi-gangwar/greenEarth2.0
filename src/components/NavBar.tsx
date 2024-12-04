@@ -32,14 +32,12 @@ function NavBar() {
                     {
                         navlinks.map((nav, index) => {
                             return (
-                                <>
-                                    <Link key={index} href={nav.pathname}>
-                                        <li className={`${nav.pathname === pathname ? 'text-blue font-bold' : 'text-yellow-800'} cursor-pointer`}>
-                                            {nav.linkName}
-                                        </li>
-                                    </Link>
-                                    {/* <TransitionLink href="/" label="Home ->" /> */}
-                                </>
+                                <Link key={index} href={nav.pathname}>
+                                    <li className={`${nav.pathname === pathname ? 'text-blue font-bold' : 'text-yellow-800'} cursor-pointer`}>
+                                        {nav.linkName}
+                                    </li>
+                                </Link>
+
                             )
                         })
                     }
