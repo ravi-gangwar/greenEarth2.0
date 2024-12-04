@@ -1,6 +1,7 @@
 import React from 'react';
 import { Ultra as UltraFont } from 'next/font/google';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 const ultra = UltraFont({
     weight: '400',
@@ -9,6 +10,11 @@ const ultra = UltraFont({
 });
 
 function LandingPage() {
+    const router = useRouter();
+
+    const handleRedirectToPlant = () => {
+        router.push('/plants')
+    }
 
     return (
         <div className='flex items-center w-[100vw] flex-col bg-gradient-to-r from-[rgba(224,205,39,0.2)] to-[rgba(231,228,22,0.73)]'>
@@ -21,7 +27,7 @@ function LandingPage() {
                     thrives, making the planet greener one tree at a time.
                 </p>
             </div>
-            <button className='bg-yellow-700 mb-10 text-yellow-100 py-3 font-bold mt-10 px-10 rounded-sm text-3xl rounded-bl-full rounded-tr-full cursor-pointer'>Get Started</button>
+            <button onClick={handleRedirectToPlant} className='bg-yellow-700 mb-10 text-yellow-100 py-3 font-bold mt-10 px-10 rounded-sm text-3xl rounded-bl-full rounded-tr-full cursor-pointer'>Get Started</button>
             <Image className='object-cover hidden sm:flex' src={"/whitewave.svg"} alt='wave' width={10000} height={10} />
         </div>
     );

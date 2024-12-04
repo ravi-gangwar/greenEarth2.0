@@ -12,8 +12,9 @@ function Footer() {
 
             {/* Description */}
             <p className='text-sm md:text-lg text-blue-900 text-center max-w-[80%] md:max-w-[60%] mx-auto mb-6 px-4'>
-                This is my semester's mini project, my own idea to plant trees and minimize pollution. This project allows you to order trees to plant, select a location, and opt for yearly or monthly plans for tree care. You can monitor the growth of your tree through pictures and videos.
+                This is my semester&apos;s mini project, my own idea to plant trees and minimize pollution. This project allows you to order trees to plant, select a location, and opt for yearly or monthly plans for tree care. You can monitor the growth of your tree through pictures and videos.
             </p>
+
 
             {/* Social Icons */}
             <div className='flex justify-center items-center gap-6 mb-8'>

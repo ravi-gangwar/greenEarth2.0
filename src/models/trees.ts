@@ -1,17 +1,11 @@
+import { ITree } from "@/types/Ttree";
 import mongoose, { Document, Schema } from "mongoose";
 
 // Define an interface for the schema fields
-interface ITree {
-  id: number;
-  name: string;
-  price: number;
-  category?: string;
-  imageUrl: string;
-  description?: string;
-}
+
 
 // Define the interface for the Mongoose Document
-interface ITreeDocument extends ITree, Document {}
+type ITreeDocument = ITree & Document;
 
 // Define the schema
 const TreeListSchema: Schema = new Schema<ITreeDocument>(
@@ -19,7 +13,7 @@ const TreeListSchema: Schema = new Schema<ITreeDocument>(
     id: {
       type: Number,
       required: [true, "Tree ID is required"],
-      unique: true, // Ensures uniqueness
+      unique: true,
     },
     name: {
       type: String,
@@ -35,7 +29,7 @@ const TreeListSchema: Schema = new Schema<ITreeDocument>(
     category: {
       type: String,
       trim: true,
-      default: "Uncategorized", // Default value
+      default: "Uncategorized",
     },
     imageUrl: {
       type: String,
@@ -51,7 +45,7 @@ const TreeListSchema: Schema = new Schema<ITreeDocument>(
   }
 );
 
-// Define the model
-const TreeList = mongoose.models.TreeList || mongoose.model('treeList', TreeListSchema);
+// Ensure the model is registered only once
+const TreeList = mongoose.models.treeList || mongoose.model<ITreeDocument>("treeList", TreeListSchema);
 
 export default TreeList;

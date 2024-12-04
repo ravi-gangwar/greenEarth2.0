@@ -8,7 +8,7 @@ function NewArriavlsTreeCard({ left, right, pop}: { left?: boolean, right?: bool
             <div className='min-h-[80%] min-w-full flex justify-center'>
                 <Image src={"/yellowTree.svg"} width={300} height={350} alt="" />
             </div>
-            <div className={`w-full h-full flex justify-between bg-blue text-white px-5`}>
+            <div className={`w-full h-full flex justify-between items-center bg-blue text-white px-5`}>
                 <p className='text-sm py-2 font-bold'>Ravi</p>
                 <p className='text-sm py-2 font-bold'>400$</p>
             </div>
