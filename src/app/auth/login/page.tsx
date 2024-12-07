@@ -9,11 +9,11 @@ function Login() {
 
 
     return (
-        <div className='flex h-[100vh] w-[100vw] bg-gradient-to-r from-[rgba(48,102,75,1)] to-[rgba(48,102,75,0.3169)]'>
-            <div className='w-[50%] flex items-center justify-center'>
+        <div className='flex flex-col lg:flex-row items-center justify-center lg:justify-evenly h-[100vh] w-[100vw]  bg-gradient-to-r from-[rgba(224,205,39,0.2)] to-[rgba(231,228,22,0.73)]'>
+            <div className='w-[70%] lg:w-[50%] flex items-center justify-center'>
                 <Image src={'/greenearth.svg'} width={width} height={height} alt='logo' />
             </div>
-            <div className='w-[50%] flex justify-center items-center flex-col'>
+            <div className='w-[90%] w-[50%] flex justify-center items-center flex-col'>
                 <form action="" onSubmit={handleLogin} className="w-full max-w-sm mx-auto bg-blur p-6 rounded-lg shadow-md">
                     <h1 className='text-blue font-bold text-3xl'>Login</h1>
                     <div className="mb-4">

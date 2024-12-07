@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <main className="bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100">
+    <main>
       <LandingPage />
       <PaymentShowcase />
       <PopularCollections />
