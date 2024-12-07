@@ -22,7 +22,7 @@ export async function connectToMongoDB() {
     return cachedConnection;
   } catch (error) {
     // If an error occurs during connection, log the error and throw it
-    console.log(error);
+    console.log("Mongo db connection error -> ", error);
     throw error;
   }
 }
