@@ -6,6 +6,6 @@ export const getAllTrees = async () => {
         const allTrees = await treeModel.find({});
         return allTrees;
     } catch (error) {
-        throw new Error(error)
+        throw new Error("Get all trees block error");
     }
 }
