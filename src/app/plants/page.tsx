@@ -52,7 +52,7 @@ function Plants() {
         </div>
       </div>
     );
-  
+
 
   if (isError)
     return (
