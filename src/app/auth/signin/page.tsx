@@ -15,7 +15,6 @@ function Login() {
 
         const email = (form.elements.namedItem("email") as HTMLInputElement).value;
         const password = (form.elements.namedItem("password") as HTMLInputElement).value;
-
         console.log("Form Data:", { email, password, });
 
         try {
