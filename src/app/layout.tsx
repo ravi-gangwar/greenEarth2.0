@@ -26,13 +26,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <header>
+        <meta name="theme-color" content="#e9c46a" />
+      </header>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Provider>
-        <RWBProver>
-          {children}
-        </RWBProver>
+          <RWBProver>
+            {children}
+          </RWBProver>
         </Provider>
       </body>
     </html>
