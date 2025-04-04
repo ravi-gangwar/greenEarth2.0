@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Provider from "./_trpc/Provider";
-import { Provider as RWBProver } from 'react-wrap-balancer'
+import { Provider as RWBProver } from "react-wrap-balancer";
+import Providers from "./Providers";
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -33,9 +35,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Provider>
-          <RWBProver>
-            {children}
-          </RWBProver>
+          <Providers>
+            <RWBProver>{children}</RWBProver>
+          </Providers>
         </Provider>
       </body>
     </html>

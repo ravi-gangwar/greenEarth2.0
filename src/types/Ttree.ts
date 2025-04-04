@@ -5,4 +5,5 @@ export interface ITree {
     category?: string;
     imageUrl: string;
     description?: string;
+    quantity?: number;
 }
