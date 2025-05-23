@@ -7,10 +7,14 @@ import Link from "next/link";
 import CustomInput from "@/components/ui/customInput";
 import { setUser } from "@/store/features/userReducer";
 import { useDispatch } from "react-redux";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+
 export default function LoginPage() {
   const dispatch = useDispatch();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callback") || "/";
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -18,7 +22,7 @@ export default function LoginPage() {
   const login = trpc.authRoutes.signin.useMutation({
     onSuccess: (data) => {
       dispatch(setUser({ ...data.user, token: data.token }));
-      router.push("/");
+      router.push(callbackUrl);
     },
     onError: (error) => {
       setError(error.message);

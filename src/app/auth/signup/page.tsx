@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { trpc } from "@/app/_trpc/client";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -11,6 +11,8 @@ import CustomInput from "@/components/ui/customInput";
 
 export default function SignupPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callback") || "/";
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,9 +21,8 @@ export default function SignupPage() {
 
   const signup = trpc.authRoutes.signup.useMutation({
     onSuccess: (data) => {
-      // Store token in localStorage or your preferred storage
       dispatch(setToken(data.token));
-      router.push("/"); // Redirect to home page
+      router.push(callbackUrl);
     },
     onError: (error) => {
       setError(error.message);

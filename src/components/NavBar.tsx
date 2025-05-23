@@ -2,12 +2,13 @@ import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { RootState } from "@/store/store";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { RiMenu3Line } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { FaLock } from "react-icons/fa";
 
 type NavTypes = {
   linkName: string;
@@ -18,14 +19,24 @@ const navlinks: NavTypes[] = [
   { linkName: "Home", pathname: "/" },
   { linkName: "Plants", pathname: "/plants" },
   { linkName: "Garden", pathname: "/garden" },
+  { linkName: "Orders", pathname: "/orders" },
   { linkName: "About", pathname: "/about" },
   { linkName: "Contact us", pathname: "/contactus" },
 ];
 
 function NavBar() {
   const pathname = usePathname();
+  const router = useRouter();
   const cart = useSelector((state: RootState) => state.cart);
   const user = useSelector((state: RootState) => state.user);
+
+  const handleRestrictedLink = (path: string) => {
+    if (!user.token && (path === "/garden" || path === "/orders")) {
+      router.push(`/auth/login?callback=${path}`);
+      return;
+    }
+    router.push(path);
+  };
 
   return (
     <nav className="z-50 w-full h-20 flex items-center justify-between px-5 bg-gradient-to-r from-[rgba(224,205,39,0.2)] to-[rgba(231,228,22,0.73)]">
@@ -41,18 +52,26 @@ function NavBar() {
       <div>
         <ul className="text-white gap-6 hidden lg:flex">
           {navlinks.map((nav, index) => {
+            const isRestricted =
+              !user.token &&
+              (nav.pathname === "/garden" || nav.pathname === "/orders");
             return (
-              <Link key={index} href={nav.pathname}>
-                <li
-                  className={`${
-                    nav.pathname === pathname
-                      ? "text-blue font-bold"
-                      : "text-yellow-800"
-                  } cursor-pointer`}
-                >
-                  {nav.linkName}
-                </li>
-              </Link>
+              <li
+                key={index}
+                onClick={() => handleRestrictedLink(nav.pathname)}
+                className={`${
+                  nav.pathname === pathname
+                    ? "text-blue font-bold"
+                    : isRestricted
+                    ? "text-yellow-800/50"
+                    : "text-yellow-800"
+                } cursor-pointer relative`}
+              >
+                {nav.linkName}
+                {isRestricted && (
+                  <FaLock className="absolute -top-2 -right-4 text-xs" />
+                )}
+              </li>
             );
           })}
         </ul>
@@ -102,24 +121,44 @@ function NavBar() {
 }
 
 const MobileMenu = () => {
+  const router = useRouter();
+  const user = useSelector((state: RootState) => state.user);
+
+  const handleRestrictedLink = (path: string) => {
+    if (!user.token && (path === "/garden" || path === "/orders")) {
+      router.push(`/auth/login?callback=${path}`);
+      return;
+    }
+    router.push(path);
+  };
+
   return (
     <Drawer>
-      {/* Drawer Trigger */}
       <DrawerTrigger asChild>
         <RiMenu3Line size={30} className="text-blue" />
       </DrawerTrigger>
 
-      {/* Drawer Content */}
       <DrawerContent className="p-4 bg-gradient-to-t from-[#30664B] to-[rgba(27,207,147,0.25)] items-center">
-        {/* Navigation Links */}
         <ul className="mt-5 flex flex-col gap-4">
-          {navlinks.map((nav, index) => (
-            <Link key={index} href={nav.pathname}>
-              <li className="font-bold text-center text-zinc-50 px-5 rounded-md text-lg cursor-pointer bg-blue">
+          {navlinks.map((nav, index) => {
+            const isRestricted =
+              !user.token &&
+              (nav.pathname === "/garden" || nav.pathname === "/orders");
+            return (
+              <li
+                key={index}
+                onClick={() => handleRestrictedLink(nav.pathname)}
+                className={`font-bold text-center text-zinc-50 px-5 rounded-md text-lg cursor-pointer bg-blue relative ${
+                  isRestricted ? "opacity-50" : ""
+                }`}
+              >
                 {nav.linkName}
+                {isRestricted && (
+                  <FaLock className="absolute -top-2 -right-4 text-xs" />
+                )}
               </li>
-            </Link>
-          ))}
+            );
+          })}
         </ul>
       </DrawerContent>
     </Drawer>

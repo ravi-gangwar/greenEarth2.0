@@ -1,22 +1,7 @@
+import { CartState } from '@/types/TCart';
 import { ITree } from '@/types/Ttree';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-interface CartItem extends ITree {
-  quantity: number;
-}
-
-interface CartState {
-  items: CartItem[];
-  totalAmount: number;
-  totalQuantity: number;
-  checkoutForm: {
-    address: string;
-    city: string;
-    state: string;
-    pin: string;
-    paymentMethod: string;
-  };
-}
 
 const initialState: CartState = {
   items: [],

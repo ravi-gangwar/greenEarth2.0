@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store/store";
@@ -12,12 +12,23 @@ import { QuantityControl } from "@/components/ui/QuantityControl";
 import { ruppee } from "../constant/constant";
 import { IoCloseSharp } from "react-icons/io5";
 import { toast } from "sonner";
+import useStripe from "@/hooks/useStripe";
+import { trpc } from "../_trpc/client";
+import { useRouter } from "next/navigation";
 
 function CartPage() {
   const dispatch = useDispatch();
+  const router = useRouter();
   const { items, totalAmount, checkoutForm } = useSelector(
     (state: RootState) => state.cart
   );
+  const user = useSelector((state: RootState) => state.user);
+
+  const { mutateAsync: cashOnDelivery, isPending: isCashOnDeliveryProcessing } =
+    trpc.paymentRoutes.cashOnDelivery.useMutation();
+
+  const [isProcessing, setIsProcessing] = useState(false);
+  const { handlePayment } = useStripe();
 
   const handleIncreaseQuantity = (id: number) => {
     const item = items.find((item) => item.id === id);
@@ -48,7 +59,12 @@ function CartPage() {
     dispatch(updateCheckoutForm({ field, value }));
   };
 
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
+    if (!user.token) {
+      router.push(`/auth/login?callback=/cart`);
+      return;
+    }
+
     if (
       !checkoutForm.address ||
       !checkoutForm.city ||
@@ -58,7 +74,28 @@ function CartPage() {
       toast.error("Please enter complete delivery address");
       return;
     }
-    toast.success("Proceeding to checkout");
+
+    if (checkoutForm.paymentMethod === "cash") {
+      try {
+        const { orderId } = await cashOnDelivery({ cart: items });
+        router.push(`/orders/${orderId}`);
+        toast.success("Order placed successfully! Cash on delivery selected.");
+      } catch (error) {
+        console.error("Payment error:", error);
+        toast.error("Failed to process payment. Please try again.");
+      }
+      return;
+    }
+
+    try {
+      setIsProcessing(true);
+      await handlePayment();
+    } catch (error) {
+      console.error("Payment error:", error);
+      toast.error("Failed to process payment. Please try again.");
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   if (items.length === 0) {
@@ -229,9 +266,12 @@ function CartPage() {
 
                 <button
                   onClick={handleCheckout}
-                  className="w-full py-3 bg-yellow-400 text-gray-700 rounded-md hover:bg-yellow-500 transition-colors duration-300 font-semibold"
+                  disabled={isProcessing || isCashOnDeliveryProcessing}
+                  className="w-full py-3 bg-yellow-400 text-gray-700 rounded-md hover:bg-yellow-500 transition-colors duration-300 font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Proceed to Checkout
+                  {isProcessing || isCashOnDeliveryProcessing
+                    ? "Processing..."
+                    : "Proceed to Checkout"}
                 </button>
               </div>
             </div>
