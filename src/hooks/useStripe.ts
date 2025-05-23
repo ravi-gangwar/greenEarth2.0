@@ -2,6 +2,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { trpc } from "@/app/_trpc/client";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import { toast } from "sonner";
 
 const useStripe = () => {
 
@@ -20,8 +21,13 @@ const useStripe = () => {
             await stripe.redirectToCheckout({
               sessionId: data.id
             });
-          } catch (error) {
-            console.log(error);
+          } catch (error: unknown) {
+            if (error instanceof Error && error.message === "INDIAN_REGULATIONS_ERROR") {
+                toast.error("Due to Indian regulations, we can only accept payments from registered Indian businesses. Please contact our support for assistance.");
+            } else {
+                console.log(error);
+                toast.error("Failed to process payment. Please try again.");
+            }
         }
     }
 

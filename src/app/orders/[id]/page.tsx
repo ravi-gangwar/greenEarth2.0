@@ -105,7 +105,7 @@ export default function OrderDetailsPage({
       <div className="max-w-4xl mx-auto">
         <Button
           variant="ghost"
-          onClick={() => router.back()}
+          onClick={() => router.push("/orders")}
           className="mb-6 text-gray-600 hover:text-gray-800"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />

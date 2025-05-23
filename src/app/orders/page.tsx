@@ -21,7 +21,7 @@ const statusIcons = {
   completed: CheckCircle,
   cancelled: XCircle,
   paymentDone: CheckCircle,
-};
+} as const;
 
 export default function OrdersPage() {
   const router = useRouter();
@@ -78,7 +78,7 @@ export default function OrdersPage() {
         <div className="grid gap-4">
           {orders.map((order, index) => {
             const StatusIcon =
-              statusIcons[order.status as keyof typeof statusIcons];
+              statusIcons[order.status as keyof typeof statusIcons] || Clock;
             const totalAmount = order.cart.reduce(
               (sum: number, item: CartItem) => sum + item.price * item.quantity,
               0
