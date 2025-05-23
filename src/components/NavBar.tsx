@@ -7,6 +7,7 @@ import React from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { RiMenu3Line } from "react-icons/ri";
 import { useSelector } from "react-redux";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 type NavTypes = {
   linkName: string;
@@ -24,6 +25,7 @@ const navlinks: NavTypes[] = [
 function NavBar() {
   const pathname = usePathname();
   const cart = useSelector((state: RootState) => state.cart);
+  const user = useSelector((state: RootState) => state.user);
 
   return (
     <nav className="z-50 w-full h-20 flex items-center justify-between px-5 bg-gradient-to-r from-[rgba(224,205,39,0.2)] to-[rgba(231,228,22,0.73)]">
@@ -73,12 +75,27 @@ function NavBar() {
             </span>
           </div>
         </Link>
-        <Link
-          href={"/auth/login"}
-          className="hidden text-blue font-bold lg:flex"
-        >
-          <span>Login</span>
-        </Link>
+        {user.token ? (
+          <Link
+            href="/profile"
+            className="hidden lg:flex items-center gap-3 hover:opacity-80 transition-opacity"
+          >
+            <Avatar className="h-10 w-10">
+              <AvatarImage src={user.avatar} alt={user.name} />
+              <AvatarFallback>
+                {user.name?.charAt(0).toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
+            <span className="text-blue font-bold">{user.name}</span>
+          </Link>
+        ) : (
+          <Link
+            href={"/auth/login"}
+            className="hidden text-blue font-bold lg:flex"
+          >
+            <span>Login</span>
+          </Link>
+        )}
       </div>
     </nav>
   );
