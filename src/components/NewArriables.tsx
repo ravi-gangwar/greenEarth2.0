@@ -12,7 +12,7 @@ const ultra = UltraFont({
 function NewArriables() {
   const { data: trendingPlants, isPending } =
     trpc.homeRoutes.getTrendingPlants.useQuery();
-  if (!trendingPlants) {
+  if (!trendingPlants && !isPending) {
     return null;
   }
   return (

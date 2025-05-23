@@ -15,9 +15,10 @@ function PopularCollections() {
   const { data: trendingPlants, isPending } =
     trpc.homeRoutes.getRecentTrendingPlants.useQuery();
 
-  if (!trendingPlants) {
+  if (!trendingPlants && !isPending) {
     return null;
   }
+
   return (
     <div className="flex flex-col justify-start bg-[#F3F4F5] pt-5">
       <div className="flex justify-between items-center">
