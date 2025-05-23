@@ -13,10 +13,10 @@ const transporter = nodemailer.createTransport({
 });
 
 export const sendPasswordResetEmail = async (email: string, resetToken: string) => {
-  const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL}/auth/reset-password?token=${resetToken}`;
+  const resetUrl = `${process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : process.env.NEXT_PUBLIC_APP_URL}/auth/reset-password?token=${resetToken}`;
   
   const mailOptions = {
-    from: process.env.EMAIL_USER,
+    from: "green.earth.mini.project@gmail.com",
     to: email,
     subject: 'Password Reset Request',
     html: `
