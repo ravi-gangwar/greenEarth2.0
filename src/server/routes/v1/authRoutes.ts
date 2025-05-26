@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import { TRPCError } from "@trpc/server";
 import User from "@/models/user";
 import crypto from "crypto";
-import { sendPasswordResetEmail } from "@/utils/emailConfig";
+import axios from "axios";
 import { connectToMongoDB } from "@/db/mongoose";
 
 const userSchema = z.object({
@@ -133,8 +133,12 @@ export const authRoutes = router({
             user.resetPasswordExpires = resetTokenExpiry;
             await user.save();
 
-            // Send reset email
-            const emailSent = await sendPasswordResetEmail(email, resetToken);
+            const resetUrl = `${process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : process.env.NEXT_PUBLIC_APP_URL}/auth/reset-password?token=${resetToken}`;
+            const emailSent = await axios.post('https://mailler-redis.onrender.com/send-email', {
+                to: email,
+                subject: 'Password Reset Request',
+                text: `Click the link below to reset your password: ${resetUrl}`
+            });
             if (!emailSent) {
                 throw new TRPCError({
                     code: "INTERNAL_SERVER_ERROR",
