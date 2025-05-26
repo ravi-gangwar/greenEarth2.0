@@ -134,7 +134,7 @@ export const authRoutes = router({
             await user.save();
 
             const resetUrl = `${process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : process.env.NEXT_PUBLIC_APP_URL}/auth/reset-password?token=${resetToken}`;
-            const emailSent = await axios.post('https://mailler-redis.onrender.com/send-email', {
+            const emailSent = await axios.post(process.env.MAILLER_URL!, {
                 to: email,
                 subject: 'Password Reset Request',
                 text: `Click the link below to reset your password: ${resetUrl}`

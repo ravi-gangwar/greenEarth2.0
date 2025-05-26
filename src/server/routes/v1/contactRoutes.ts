@@ -2,8 +2,7 @@ import { z } from "zod";
 import { publicProcedure, router } from "@/server/trpc";
 import { connectToMongoDB } from "@/db/mongoose";
 import Contact from "@/models/contact";
-import { sendContactFormEmail } from "@/utils/emailConfig";
-
+import axios from "axios";
 const contactSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email address"),
@@ -20,7 +19,11 @@ export const contactRoutes = router({
         const contact = await Contact.create(input);
         
         // Send email notification
-        const emailSent = await sendContactFormEmail(input);
+        const emailSent = await axios.post(process.env.MAILLER_URL!, {
+            to: "ravigangwar7465@gmail.com",
+            subject: "Contact Form Submission",
+            text: `Name: ${input.name}\nEmail: ${input.email}\nSubject: ${input.subject}\nMessage: ${input.message}`
+        });
         if (!emailSent) {
           console.error("Failed to send contact form email");
         }
