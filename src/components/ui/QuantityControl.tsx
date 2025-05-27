@@ -18,7 +18,7 @@ export function QuantityControl({
     <div className={`flex items-center gap-2 ${className}`}>
       <button
         onClick={onDecrease}
-        disabled={quantity <= 1}
+        disabled={quantity < 1}
         className="w-8 h-8 flex items-center justify-center rounded-full bg-yellow-400 text-gray-700 hover:bg-yellow-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
         aria-label="Decrease quantity"
       >

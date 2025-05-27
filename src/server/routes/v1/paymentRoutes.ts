@@ -5,6 +5,8 @@ import Stripe from "stripe";
 import { connectToMongoDB } from "@/db/mongoose";
 import Payment from "@/models/payments";
 import Order from "@/models/order";
+import TreeList from "@/models/trees";
+
 
 const cartItemSchema = z.object({
   id: z.number(),
@@ -19,14 +21,27 @@ const cartItemSchema = z.object({
 export const paymentRoutes = router({
   checkout: protectedProcedure.input(
     z.object({
-      cart: z.array(cartItemSchema)
+      cart: z.array(cartItemSchema),
+      address: z.object({
+        address: z.string(),
+        city: z.string(),
+        state: z.string(),
+        pin: z.string(),
+      })
     })
   ).mutation(async ({ input, ctx }) => {
     try {               
-      const { cart } = input;
+      const { cart, address } = input;
       const userId = ctx.user.id; // Get user ID from context
       await connectToMongoDB();
       const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
+
+      // fist check all the items are available in the database
+      const items = await TreeList.find({ id: { $in: cart.map(item => item.id) } });
+      if(items.length !== cart.length) throw new Error("Item not found");
+
+      // caclulate the total amount of the cart 
+      const totalAmount = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
       
       const lineItems = cart.map(item => ({
         price_data: {
@@ -35,9 +50,9 @@ export const paymentRoutes = router({
             name: item.name,
             images: [item.imageUrl],
           },
-          unit_amount: item.price * 100,
+          unit_amount: totalAmount * 100,
         },
-        quantity: item.quantity,
+        quantity: 1,
       }));
 
       const session = await stripe.checkout.sessions.create({
@@ -58,7 +73,10 @@ export const paymentRoutes = router({
         createdAt: new Date(),
         updatedAt: new Date(),
         paymentMethod: "card",
+        address: address,
       });
+
+      console.log(address);
 
         const order = await Order.create({
         cart: cart,
@@ -68,6 +86,7 @@ export const paymentRoutes = router({
         updatedAt: new Date(),
         paymentMethod: "card",
         paymentId: payment._id.toString(),
+        address: address,
       });
 
       console.log("Payment created successfully");
@@ -84,29 +103,33 @@ export const paymentRoutes = router({
   }),
   cashOnDelivery: protectedProcedure.input(
     z.object({
-      cart: z.array(cartItemSchema)
+      cart: z.array(cartItemSchema),
+      address: z.object({
+        address: z.string(),
+        city: z.string(),
+        state: z.string(),
+        pin: z.string(),
+      })
     })
   ).mutation(async ({ input, ctx }) => {
     try {
-      const { cart } = input;
+      const { cart, address } = input;
       const userId = ctx.user.id;
       await connectToMongoDB();
-      const payment = await Payment.create({
-        cart: cart,
-        userId: userId,
-        status: "paymentDone",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        paymentMethod: "cash",
-      });
+      // check all the items are available in the database
+      const items = await TreeList.find({ id: { $in: cart.map(item => item.id) } });
+      if(items.length !== cart.length) throw new Error("Item not found");
+
+      console.log(address);
+      
       const order = await Order.create({
-        cart: cart,
+        cart: items,
         userId: userId,
         status: "paymentDone",
         createdAt: new Date(),
         updatedAt: new Date(),
         paymentMethod: "cash",
-        paymentId: payment._id.toString(),
+        address: address,
       });
       console.log("Payment created successfully");
       return {

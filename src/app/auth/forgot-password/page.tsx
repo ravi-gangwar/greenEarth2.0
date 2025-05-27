@@ -1,20 +1,42 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { trpc } from "@/app/_trpc/client";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import CustomInput from "@/components/ui/customInput";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { setForgotPasswordTimer } from "@/store/features/timerReducer";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const dispatch = useDispatch();
+  const forgotPasswordTimer = useSelector(
+    (state: RootState) => state.timer.forgotPasswordTimer
+  );
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (forgotPasswordTimer !== null && forgotPasswordTimer > 0) {
+      interval = setInterval(() => {
+        dispatch(setForgotPasswordTimer(forgotPasswordTimer - 1));
+      }, 1000);
+    } else if (forgotPasswordTimer === 0) {
+      dispatch(setForgotPasswordTimer(null));
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [forgotPasswordTimer, dispatch]);
 
   const forgotPassword = trpc.authRoutes.forgotPassword.useMutation({
     onSuccess: () => {
       setSuccess(true);
       setError("");
+      dispatch(setForgotPasswordTimer(60)); // Set timer to 60 seconds
     },
     onError: (error) => {
       setError(error.message);
@@ -27,6 +49,12 @@ export default function ForgotPasswordPage() {
     setError("");
     setSuccess(false);
     forgotPassword.mutate({ email });
+  };
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
 
   return (
@@ -61,10 +89,12 @@ export default function ForgotPasswordPage() {
           <Button
             type="submit"
             className="w-full bg-blue text-white hover:bg-blue/90"
-            disabled={forgotPassword.isPending}
+            disabled={forgotPassword.isPending || forgotPasswordTimer !== null}
           >
             {forgotPassword.isPending
               ? "Sending..."
+              : forgotPasswordTimer !== null
+              ? `Resend in ${formatTime(forgotPasswordTimer)}`
               : "Send Reset Instructions"}
           </Button>
         </form>

@@ -11,7 +11,11 @@ import { RootState } from "@/store/store";
 import { ruppee } from "../constant/constant";
 import { TextShortner } from "@/utils";
 import { QuantityControl } from "@/components/ui/QuantityControl";
-import { addToCart, updateQuantity } from "@/store/features/cartReducer";
+import {
+  addToCart,
+  updateQuantity,
+  removeFromCart,
+} from "@/store/features/cartReducer";
 import PlantDetailsModal from "../_components/PlantDetailsModal";
 import RenderSkeletonCards from "../_components/Skeletons";
 
@@ -126,6 +130,11 @@ const Plants = () => {
       const item = cart.items.find((item) => item.id === id);
       if (item && item.quantity > 1) {
         dispatch(updateQuantity({ id, quantity: item.quantity - 1 }));
+      } else {
+        // remove item from cart
+        if (item) {
+          dispatch(removeFromCart(item.id));
+        }
       }
     },
     [cart.items, dispatch]

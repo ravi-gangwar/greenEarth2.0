@@ -41,13 +41,18 @@ function CartPage() {
     const item = items.find((item) => item.id === id);
     if (item && item.quantity > 1) {
       dispatch(updateQuantity({ id, quantity: item.quantity - 1 }));
+    } else {
+      if (item) {
+        dispatch(removeFromCart(item.id));
+        toast.success("Item removed from cart");
+      }
     }
   };
 
   const handleRemoveItem = (id: number) => {
     const item = items.find((item) => item.id === id);
     if (item) {
-      dispatch(removeFromCart(item));
+      dispatch(removeFromCart(item.id));
       toast.success("Item removed from cart");
     }
   };
@@ -75,9 +80,19 @@ function CartPage() {
       return;
     }
 
+    const address = {
+      address: checkoutForm.address,
+      city: checkoutForm.city,
+      state: checkoutForm.state,
+      pin: checkoutForm.pin,
+    };
+
     if (checkoutForm.paymentMethod === "cash") {
       try {
-        const { orderId } = await cashOnDelivery({ cart: items });
+        const { orderId } = await cashOnDelivery({
+          cart: items,
+          address,
+        });
         router.push(`/orders/${orderId}`);
         toast.success("Order placed successfully! Cash on delivery selected.");
       } catch (error) {
@@ -89,7 +104,7 @@ function CartPage() {
 
     try {
       setIsProcessing(true);
-      await handlePayment();
+      await handlePayment(address);
     } catch (error) {
       console.error("Payment error:", error);
       toast.error("Failed to process payment. Please try again.");

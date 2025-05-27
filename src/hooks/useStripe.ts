@@ -3,12 +3,14 @@ import { trpc } from "@/app/_trpc/client";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { toast } from "sonner";
+import Address from "@/types/TAddress";
+
 
 const useStripe = () => {
 
     const {mutateAsync: checkout} = trpc.paymentRoutes.checkout.useMutation();
     const {items} = useSelector((state: RootState) => state.cart);
-    const handlePayment = async () => {
+    const handlePayment = async (address: Address) => {
         const stripe = await loadStripe(
             process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY as string
           );
@@ -16,7 +18,7 @@ const useStripe = () => {
             return;
           }
           try {
-            const data = await checkout({cart: items});
+            const data = await checkout({cart: items, address});
             if (!data) throw new Error('Something went wrong');
             await stripe.redirectToCheckout({
               sessionId: data.id

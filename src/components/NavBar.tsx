@@ -38,6 +38,11 @@ function NavBar() {
     router.push(path);
   };
 
+  const totalQuantity = cart.items.reduce(
+    (acc, item) => acc + item.quantity,
+    0
+  );
+
   return (
     <nav className="z-50 w-full h-20 flex items-center justify-between px-5 bg-gradient-to-r from-[rgba(224,205,39,0.2)] to-[rgba(231,228,22,0.73)]">
       <div>
@@ -90,7 +95,7 @@ function NavBar() {
               className="hidden text-blue font-bold rounded-full lg:flex"
             />
             <span className="absolute top-[-10px] right-[-10px] bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-              {cart.totalQuantity}
+              {totalQuantity}
             </span>
           </div>
         </Link>

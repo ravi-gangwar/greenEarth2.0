@@ -3,15 +3,18 @@ import cartReducer from './features/cartReducer'
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import userReducer from './features/userReducer'
+import timerReducer from './features/timerReducer'
+
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['cart', 'user'],
+  whitelist: ['cart', 'user', 'timer'],
 }
 
 const rootReducer = combineReducers({
   cart: cartReducer,
   user: userReducer,
+  timer: timerReducer,
 })
 
 const persistedCartReducer = persistReducer(persistConfig, rootReducer)

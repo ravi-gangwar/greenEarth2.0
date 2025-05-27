@@ -8,6 +8,7 @@ const orderSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now },
   paymentMethod: { type: String, required: false },
   paymentId: { type: String, required: false },
+  address: { type: Object, required: true },
 });
 
 const Order = mongoose.models.Order || mongoose.model("Order", orderSchema);

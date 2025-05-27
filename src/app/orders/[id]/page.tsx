@@ -58,6 +58,8 @@ export default function OrderDetailsPage({
     id: params.id,
   }) as { data: Order | undefined; isLoading: boolean };
 
+  console.log(order);
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-r from-[rgba(224,205,39,0.2)] to-[rgba(231,228,22,0.73)] p-4">
@@ -94,7 +96,8 @@ export default function OrderDetailsPage({
     );
   }
 
-  const StatusIcon = statusIcons[order.status as keyof typeof statusIcons];
+  const StatusIcon =
+    statusIcons[order.status as keyof typeof statusIcons] || Package;
   const totalAmount = order.cart.reduce(
     (sum: number, item: CartItem) => sum + item.price * item.quantity,
     0
@@ -166,13 +169,17 @@ export default function OrderDetailsPage({
               <h3 className="font-semibold text-gray-800 mb-2">
                 Delivery Address
               </h3>
-              <p className="text-gray-600">
-                {order.address?.street || "No address provided"}
-              </p>
-              <p className="text-gray-600">
-                {order.address?.city}, {order.address?.state} -{" "}
-                {order.address?.pin}
-              </p>
+              {order.address ? (
+                <div className="space-y-1">
+                  <p className="text-gray-600">{order.address.street}</p>
+                  <p className="text-gray-600">
+                    {order.address.city}, {order.address.state}
+                  </p>
+                  <p className="text-gray-600">PIN: {order.address.pin}</p>
+                </div>
+              ) : (
+                <p className="text-gray-500 italic">No address provided</p>
+              )}
             </div>
           </div>
 

@@ -10,6 +10,7 @@ const orderRoutes = router({
   }),
   getOrderById: protectedProcedure.input(z.object({ id: z.string() })).query(async ({ input }) => {
     const order = await Order.findById(input.id);
+    console.log(order);
     return order;
   }),
 });
